@@ -1,3 +1,4 @@
+import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,12 +10,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Amazon Clone',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: GlobalVariables.backgroundColor,
+        colorScheme:
+            const ColorScheme.light(primary: GlobalVariables.secondaryColor),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const Scaffold(body:  Center(child:  Text("Flutter demo"),),),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Amazon'),
+        ),
+        body: Column(
+          children: [
+            const Center(
+              child: Text("Amazon app"),
+            ),
+            ElevatedButton(onPressed: () {}, child: Text('Click'))
+          ],
+        ),
+      ),
     );
   }
 }
