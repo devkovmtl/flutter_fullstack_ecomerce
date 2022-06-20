@@ -20,6 +20,17 @@ const UserSchema = new Schema(
       minlength: 1,
       maxlength: 100,
     },
+    address: {
+      type: String,
+    },
+    type: {
+      type: String,
+      default: "user",
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
