@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,6 +38,33 @@ class AuthService {
           context: context,
           onSuccess: () {
             showSnackBar(context, 'Account has been created! Please Login');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void signInUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response response = await http.post(
+          Uri.parse('$uri/8080/api/signin'),
+          body: jsonEncode({
+            'email': email,
+            'password': password,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json;chartset=UTF-8'
+          });
+      print(response.body);
+      httpErrorHandler(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showSnackBar(context, 'Successful login!');
           });
     } catch (e) {
       showSnackBar(context, e.toString());
