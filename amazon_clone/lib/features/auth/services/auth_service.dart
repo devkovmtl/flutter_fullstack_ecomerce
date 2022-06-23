@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/constants/urip.dart';
+import "package:shared_preferences/shared_preferences.dart";
 
 class AuthService {
   // sign up user
@@ -63,8 +64,10 @@ class AuthService {
       httpErrorHandler(
           response: response,
           context: context,
-          onSuccess: () {
-            showSnackBar(context, 'Successful login!');
+          onSuccess: () async {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setInt(
+                'x-auth-token', jsonDecode(response.body)['token']);
           });
     } catch (e) {
       showSnackBar(context, e.toString());
