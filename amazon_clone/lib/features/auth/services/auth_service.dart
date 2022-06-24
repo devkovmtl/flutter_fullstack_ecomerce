@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/constants/urip.dart';
 import "package:shared_preferences/shared_preferences.dart";
+import "package:provider/provider.dart";
+import 'package:amazon_clone/features/home/screens/home_screen.dart';
 
 class AuthService {
   // sign up user
@@ -66,8 +69,15 @@ class AuthService {
           context: context,
           onSuccess: () async {
             final prefs = await SharedPreferences.getInstance();
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(response.body);
             await prefs.setInt(
                 'x-auth-token', jsonDecode(response.body)['token']);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeScreen.routeName,
+              (route) => false,
+            );
           });
     } catch (e) {
       showSnackBar(context, e.toString());
